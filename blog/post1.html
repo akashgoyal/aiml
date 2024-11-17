@@ -12,7 +12,7 @@
     </header>
     <main>
         <section>
-            <h2>Introduction</h2>
+            <!--h2>Introduction</h2-->
             <p>
                 The famous work <strong>ATTENTION IS ALL YOU NEED</strong> has been the basis of a lot of Transformer-based LLM progress and AI research. Transformer-based LLMs have presented amazing capabilities in multiple tasks. Scaling these models has demonstrated performance along with <i>inflated deployment costs</i> and <i>compute resource demands</i>.
             </p>
@@ -22,7 +22,7 @@
             </p>
         </section>
         <section>
-            <h2>Visualize Dropping</h2>
+            <!--h2>Visualize Dropping</h2-->
             <p>
                 <i>From the below image, we can understand that a (block) or (Layer+LayerNorm) is fully removed</i><br> 
                 <i>Then, the remaining (blocks) or (Layer Module), adjusts the respective skip-connections and input outputs links.</i>
@@ -48,7 +48,7 @@
             </span>
         </section>
         <section>
-            <h2>Drop Assessment</h2>
+            <!--h2>Drop Assessment</h2-->
             <p>
                 <strong>Block Drop</strong> degrades the model's original performance significantly with increased speedup. This is because it overlooks the internal fine-grained architectures within each block.<br>
                 <strong>MLP Layer Drop</strong> also gives huge performance degradation with moderate speedup. This is because of little redundancy(more importance) in MLP layer modules. <br>
@@ -137,7 +137,7 @@
             
         </section>
         <section>
-            <h2>Evaluating Metrics for Methods</h2>
+            <h4>Evaluating Metrics for Methods</h4>
             <p>
                 <code>SPEEDUP DEGRADATION RATIO : SDR = ∆Avg. / ∆Speedup</code>, <br>
                 <code> ∆Avg. = the % change in average performance across the evaluated tasks, </code><br> 
