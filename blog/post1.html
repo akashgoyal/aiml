@@ -5,14 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discuss : What Matters in Transformers? Not All Attention Is Needed</title>
     <link rel="stylesheet" href="./blog-css/post1_css.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <h1>Discuss: What Matters in Transformers? Not All Attention Is Needed</h1>
     </header>
     <main>
+        <section style="background-color: #e7f3fe; border: 1px solid #b3d8ff; padding: 15px; border-radius: 5px;">
+            <p>
+                <h3 style="color: #0074cc;">AS YOU READ, RELATE WITH BELOW QUESTIONS. IT WOULD BE FUN ...</h3>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">1. Why deep attention layers have so much redundancy?</li>
+                    <li style="margin-bottom: 10px;">2. Why joint-drop works better in high sparsity cases?</li>
+                    <li style="margin-bottom: 10px;">3. Why quantization enhance efficiency of these methods?</li>
+                    <li style="margin-bottom: 10px;">4. Why joint-drop excel attention-drop? (an easy one)</li>
+                    <li style="margin-bottom: 10px;">5. Why one-shot drop excelled iterative drop?</li>
+                </ul>
+            </p>
+        </section>
+        
         <section>
-            <!--h2>Introduction</h2-->
+            <h2>Introduction</h2>
             <p>
                 The famous work <strong>ATTENTION IS ALL YOU NEED</strong> has been the basis of a lot of Transformer-based LLM progress and AI research. Transformer-based LLMs have presented amazing capabilities in multiple tasks. Scaling these models has demonstrated performance along with <i>inflated deployment costs</i> and <i>compute resource demands</i>.
             </p>
@@ -78,7 +92,7 @@
             </span>
             <p>
                 Block Drop and Layer Drop's integration with <strong>quantization</strong> significantly <i>enhances efficiency</i>. 
-                This happens possibly because of increase in sparsity after quantization.
+                This happens possibly because of increase in sparsity after quantization(fp16 mentioned in paper).
             </p>
         </section>
         <section>
@@ -94,32 +108,38 @@
                 <br><br>Read the algorithm of two proposed methods below : 
 
             </p>
-            <table style="width: 100%; border-spacing: 20px; text-align: center; border: 1px solid black; ">
-                <tr>
-                    <td style="border: 1px solid black;"><strong>ATTENTION DROP</strong></td>
-                    <td style="border: 1px solid black;"><strong>JOINT LAYER DROP</strong></td>
-                </tr>
-                <tr>
-                    <td style="vertical-align: top;">
-                            <!--strong>ATTENTION DROP -</strong><br-->
-                            1. Calculate importance score for each Attention Layer module.<br>
-                            2. Define a pruning or dropping ratio. [0-100%]<br>
-                            3. Prune Attention Layers with least importance scores. (according to the Dropping Ratio)
-                    </td>
-                    <td style="vertical-align: top;">
-                            <!--strong>JOINT LAYER DROP -</strong><br-->
-                            1. Calculate the importance scores for both attention layers(SA) and MLP layers(SM) individually. <br>
-                            2. Define a pruning or dropping ratio. [0-100%] <br>
-                            3. Concatenate the scores into a single array: S = [SA, SM] <br>
-                            4. From the combined set of importance scores, drop the layers with the lowest values, regardless of whether they are attention or MLP layers. (according to the pruning ratio)
-
-                    </td>
-                </tr>
-            </table>
+            <div style="background-color: #ffffcc; padding: 20px; border: 1px solid #cccc00; border-radius: 5px; font-family: 'Poppins', sans-serif;">
+                <table style="width: 100%; border-spacing: 20px; text-align: center; border: 1px solid black; font-size: 16px; line-height: 1.6;">
+                    <tr>
+                        <td style="border: 1px solid black; font-weight: 600;"><strong>ATTENTION DROP</strong></td>
+                        <td style="border: 1px solid black; font-weight: 600;"><strong>JOINT LAYER DROP</strong></td>
+                    </tr>
+                    <!--tr>
+                        <td colspan="2" style="padding: 0;">
+                            <hr style="border: none; border-top: 1px solid black; margin: 0;">
+                        </td>
+                    </tr-->
+                    <tr>
+                        <td style="vertical-align: top; border-right: 1px solid black;">
+                            <strong>1.</strong> Calculate importance score for each Attention Layer module.<br>
+                            <strong>2.</strong> Define a dropping ratio(DR).[0-100%]<br>
+                            <strong>3.</strong> Prune Attention Layers with least importance scores. (according to DR)
+                        </td>
+                        <td style="vertical-align: top;">
+                            <strong>1.</strong> Calculate the importance scores for both attention layers(SA) and MLP layers(SM) individually.<br>
+                            <strong>2.</strong> Concatenate the scores into a single array: S = [SA, SM]<br>
+                            <strong>3.</strong> Define a pruning ratio(DR).[0-100%]<br>
+                            <strong>4.</strong> From the combined set of importance scores, drop the layers with the lowest values, regardless of whether they are attention or MLP layers. (according to DR)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
             <p>
-                It is clearly visible from the curves in below image, <strong>Joint Layer Drop consistently achieves better performance than either Attention Drop or MLP Drop alone.</strong> <br>
-                <strong>Explanation</strong> - For same dropping ratio(d %), joint dropping removes least important layers from larger set.
-                and individually dropping layers, may remove a meaningful layer(because of small set of layers) to fulfill the dropping ratio.
+                <strong>Joint Layer Drop consistently achieves better performance than either Attention Drop or MLP Drop alone.</strong> <br>
+                <strong>Explanation</strong> - For same dropping ratio(d%), 'joint-drop' removes least important layers from larger set.
+                The 'individual layer-drop' may remove a meaningful layer(because of small set of layers) to fulfill the dropping ratio. 
+                It can be validated from the curves in below image.
             </p>
     
             <table style="width: 100%; border-spacing: 20px; text-align: center;">
@@ -149,7 +169,6 @@
             <h2>POSITIVE EXAMPLES</h2>            
             <ul>
                 <li>Llama-2-13B - 99% original performance, after dropping 8 attn. Layers.</li>
-                <li>Mistral-7B - 99% original performance, after dropping 8 attn. Layers.</li>
                 <li>Llama-2-13B - 90% original performance(MMLU task), dropped 31 layers (Attn+MLP).</li>
                 <li>Llama-2-70B - 97.6% original performance. 48.4% speedup.</li>
             </ul>
@@ -161,14 +180,15 @@
                 <i>Reason</i> : Instruction finetuning of Llama-2-7B-Base(originally poor in mathematics), created Llama-2-7B-Math with math ability. This ability obtained solely through FT appears to be <i>superficial</i>.
             </p>
         </section>
-        <section>
-            <h2>Open Questions</h2>
-            <ul>
-                <li>Measure of redundancy - is it valid for different transformer architectures ?</li>
-                <li>High sparsity conditions - is it related only to model weights precisely zero ?</li>
-                <li>Decision of one-shot vs iterative is taken over tasks accuracy - it could be different for other architectures ?</li>
-                <li>Redundancy is an inherent property of Transformers architecture - further optimized architecture.</li>
-            </ul>
+        <section style="background-color: #e7f3fe; border: 1px solid #b3d8ff; padding: 15px; border-radius: 5px;">
+            <p>
+                <h3 style="color: #0074cc;">Wanna think more ...</h3>
+                <ul>
+                    <li style="margin-bottom: 10px;">Measure of redundancy - it's validity for different transformer architectures ?</li>
+                    <li style="margin-bottom: 10px;">High sparsity conditions - is it related only to model weights precisely zero ?</li>
+                    <li style="margin-bottom: 10px;">Decision of one-shot vs iterative,(taken on basis of task) - any impact of architectures ?</li>
+                </ul>
+            </p>
         </section>
     </main>
     <footer>
