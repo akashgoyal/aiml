@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Neural Networks: A Comprehensive Guide</title>
+    <link rel="stylesheet" href="./blog-css/post2_css.css">
+</head>
+<body>
+    <h1>Graph Neural Networks: A Comprehensive Guide</h1>
+
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#intro">Introduction to Graph Neural Networks</a></li>
+            <li><a href="#theory">Theoretical Foundations</a></li>
+            <li><a href="#variants">GNN Variants</a></li>
+            <li><a href="#implementation">Practical Implementation</a></li>
+            <li><a href="#advanced">Advanced Topics</a></li>
+            <li><a href="#analysis">Analysis and Visualizations</a></li>
+        </ul>
+    </div>
+
+    <section id="intro">
+        <h2>Introduction to Graph Neural Networks</h2>
+        <p>Graph Neural Networks (GNNs) are specialized neural networks designed to work with graph-structured data. Unlike traditional neural networks that operate on fixed-size inputs, GNNs can handle variable-sized graphs with complex relationships.</p>
+
+        <h3>Real-World Applications</h3>
+        <ul>
+            <li>Social network analysis</li>
+            <li>Drug discovery</li>
+            <li>Protein structure prediction</li>
+            <li>Recommender systems</li>
+            <li>Traffic prediction</li>
+            <li>Fraud detection</li>
+        </ul>
+    </section>
+
+    <section id="theory">
+        <h2>Theoretical Foundations</h2>
+        <h3>Message Passing Framework</h3>
+        <p>The core idea behind GNNs is message passing between nodes. This process occurs in three main steps:</p>
+
+        <div class="note">
+            <h4>1. Message Generation</h4>
+            <pre><code>message = M(h_v, h_u, e_vu)</code></pre>
+            <p>Where:</p>
+            <ul>
+                <li>h_v: Features of the target node</li>
+                <li>h_u: Features of the neighbor node</li>
+                <li>e_vu: Edge features</li>
+            </ul>
+        </div>
+
+        <div class="note">
+            <h4>2. Message Aggregation</h4>
+            <pre><code>aggregated = AGGREGATE({message_u | u ∈ N(v)})</code></pre>
+            <p>Common aggregation functions:</p>
+            <ul>
+                <li>Mean</li>
+                <li>Sum</li>
+                <li>Max</li>
+                <li>Attention-weighted sum</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="implementation">
+        <h2>Practical Implementation</h2>
+        <h3>GNN - Basic Model</h3>
+        <div class="notebook-container">
+            <iframe src="../../ML-ipynb/GNN/gnn_basic_model.py" width="100%" height="300px" frameborder="0"></iframe>
+        </div>
+        <h3>GNN - Advanced Models</h3>
+        <div class="notebook-container">
+          <iframe src="../../ML-ipynb/GNN/gnn_advanced_models.py" width="100%" height="300px" frameborder="0"></iframe>
+      </div>
+    </section>
+
+    <section id="variants">
+        <h2>GNN Variants</h2>
+        <table class="variants-table">
+          <thead>
+              <tr>
+                  <th>Model Type</th>
+                  <th>Key Features</th>
+                  <th>Best Used For</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td class="model-name">Graph Convolutional Networks (GCN)</td>
+                  <td>
+                      <ul>
+                          <li>Simplest form of GNN</li>
+                          <li>Uses normalized adjacency matrix</li>
+                          <li>Efficient spectral-domain convolutions</li>
+                      </ul>
+                  </td>
+                  <td>
+                      <ul>
+                          <li>Small to medium-sized graphs</li>
+                          <li>Homogeneous graph structures</li>
+                          <li>When computational efficiency is priority</li>
+                      </ul>
+                  </td>
+              </tr>
+              <tr>
+                  <td class="model-name">Graph Attention Networks (GAT)</td>
+                  <td>
+                      <ul>
+                          <li>Learns attention weights between nodes</li>
+                          <li>Can handle different neighbor importance</li>
+                          <li>More flexible than GCN for heterogeneous graphs</li>
+                      </ul>
+                  </td>
+                  <td>
+                      <ul>
+                          <li>Heterogeneous graphs</li>
+                          <li>When node relationships vary in importance</li>
+                          <li>Complex graph structures</li>
+                      </ul>
+                  </td>
+              </tr>
+              <tr>
+                  <td class="model-name">GraphSAGE</td>
+                  <td>
+                      <ul>
+                          <li>Scalable approach for large graphs</li>
+                          <li>Uses neighbor sampling</li>
+                          <li>Supports inductive learning</li>
+                      </ul>
+                  </td>
+                  <td>
+                      <ul>
+                          <li>Large-scale graphs</li>
+                          <li>When inductive capabilities are needed</li>
+                          <li>Dynamic or growing graphs</li>
+                      </ul>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+    </section>
+
+    <section id="advanced">
+        <h2>Advanced Topics</h2>
+        <h3>Positional Encodings in Graphs</h3>
+        <p>Unlike sequences or images, graphs don't have natural positional information. Solutions include:</p>
+        <ul>
+            <li>Laplacian eigenvectors</li>
+            <li>Random walk-based encodings</li>
+            <li>Learnable positional embeddings</li>
+        </ul>
+
+        <div class="warning">
+            <h4>Best Practices</h4>
+            <ul>
+                <li>Use attention mechanisms for heterogeneous graphs</li>
+                <li>Apply skip connections in deep architectures</li>
+                <li>Consider computational constraints when choosing architecture</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="analysis">
+        <h2>Analysis and Visualizations</h2>
+        <h3>Comparative Analysis</h3>
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Pros</th>
+                <th>Cons</th>
+            </tr>
+            <tr>
+                <td>GCN</td>
+                <td>Simple, Efficient, Good baseline</td>
+                <td>Limited expressiveness, Can't handle edge features</td>
+            </tr>
+            <tr>
+                <td>GAT</td>
+                <td>Attention weights, Better for heterogeneous graphs</td>
+                <td>More parameters, Higher complexity</td>
+            </tr>
+            <tr>
+                <td>GraphSAGE</td>
+                <td>Scalable, Supports inductive learning</td>
+                <td>Sampling can miss connections, Higher memory usage</td>
+            </tr>
+        </table>
+    </section>
+
+    <script>
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
